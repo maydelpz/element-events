@@ -122,7 +122,6 @@ const filteredEmpresas = computed(() => {
       </div>
     </div>
 
-    <!-- Modal -->
     <AddModal v-model="showModal" title="Nueva empresa" @save="submitEmpresa">
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-medium mb-2"

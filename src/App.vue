@@ -1,13 +1,7 @@
-<script setup>
-import { useUserStore } from "./stores/user";
 
-const userStore = useUserStore();
-</script>
 
 <template>
   <div>
-    <nav v-if="!userStore.loadingSession"></nav>
-    <div v-else class="home-page"></div>
     <router-view></router-view>
   </div>
 </template>
