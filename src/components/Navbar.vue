@@ -32,11 +32,6 @@ const registerItems = [
     icon: "fas fa-building",
   },
   {
-    text: "Registrar Vehículo",
-    href: "/registervehicle",
-    icon: "fas fa-car",
-  },
-  {
     text: "Registrar Empresa",
     href: "/registerenterprise",
     icon: "fas fa-briefcase",

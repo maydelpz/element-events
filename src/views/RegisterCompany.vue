@@ -2,68 +2,42 @@
 import Navbar from "../components/Navbar.vue";
 import AddModal from "../components/AddModal.vue";
 import DeleteButton from "../components/DeleteButton.vue";
-import { showSuccess, showError } from "../services/AlertService";
 import { ref, onMounted, computed } from "vue";
-import {
-  getFirestore,
-  collection,
-  doc,
-  setDoc,
-  deleteDoc,
-  getDocs,
-} from "firebase/firestore";
 
-const db = getFirestore();
 const compañías = ref([]);
 const searchQuery = ref("");
 const showModal = ref(false);
 const newCompany = ref({ nombre: "" });
 
-// Cargar compañías
+// Simular carga de compañías
 const loadCompanies = async () => {
-  try {
-    const snapshot = await getDocs(collection(db, "ImgCompania"));
-    compañías.value = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      nombre: doc.data().nombreCompania,
-    }));
-  } catch {
-    showError("No se pudieron cargar las compañías");
-  }
+  compañías.value = [
+    { id: "1", nombre: "Simulada S.A." },
+    { id: "2", nombre: "EjemploCorp" },
+  ];
 };
 
-// Eliminar compañía
+// Simular eliminación
 const deleteCompany = async (id) => {
-  try {
-    await deleteDoc(doc(db, "ImgCompania", id));
-    showSuccess("Compañía eliminada");
-    await loadCompanies();
-  } catch {
-    showError("Error al eliminar la compañía");
-  }
+  alert(`Compañía con ID ${id} eliminada (simulado)`);
+  compañías.value = compañías.value.filter((c) => c.id !== id);
 };
 
-// Agregar nueva compañía
+// Simular agregar
 const submitCompany = async () => {
   const nombre = newCompany.value.nombre.trim();
   if (!nombre) {
-    showError("El nombre de la compañía no puede estar vacío.");
+    alert("El nombre de la compañía no puede estar vacío.");
     return;
   }
 
-  try {
-    await setDoc(doc(db, "ImgCompania", nombre), {
-      nombreCompania: nombre,
-    });
-    showSuccess("Compañía agregada");
-    resetForm();
-    showModal.value = false;
-    await loadCompanies();
-  } catch (error) {
-    showError(error.message);
-  }
+  alert(`Compañía "${nombre}" agregada (simulado)`);
+  compañías.value.push({ id: Date.now().toString(), nombre });
+  resetForm();
+  showModal.value = false;
 };
 
+// Resetear formulario
 const resetForm = () => {
   newCompany.value = { nombre: "" };
 };
@@ -77,6 +51,7 @@ const filteredCompanies = computed(() => {
     : compañías.value;
 });
 </script>
+
 
 <template>
   <div class="min-h-screen bg-[#122C4F] flex flex-col">

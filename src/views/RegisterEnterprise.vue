@@ -2,68 +2,42 @@
 import Navbar from "../components/Navbar.vue";
 import AddModal from "../components/AddModal.vue";
 import DeleteButton from "../components/DeleteButton.vue";
-import { showSuccess, showError } from "../services/AlertService";
 import { ref, onMounted, computed } from "vue";
-import {
-  getFirestore,
-  collection,
-  doc,
-  setDoc,
-  deleteDoc,
-  getDocs,
-} from "firebase/firestore";
 
-const db = getFirestore();
 const empresas = ref([]);
 const searchQuery = ref("");
 const showModal = ref(false);
 const newEmpresa = ref({ nombre: "" });
 
-// Cargar empresas
+// Simular carga de empresas
 const loadEmpresas = async () => {
-  try {
-    const snapshot = await getDocs(collection(db, "ImgEmpresa"));
-    empresas.value = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      nombre: doc.data().nombreEmpresa,
-    }));
-  } catch {
-    showError("No se pudieron cargar las empresas");
-  }
+  empresas.value = [
+    { id: "1", nombre: "Empresa Uno" },
+    { id: "2", nombre: "Empresa Dos" },
+  ];
 };
 
-// Eliminar
+// Simular eliminación
 const deleteEmpresa = async (id) => {
-  try {
-    await deleteDoc(doc(db, "ImgEmpresa", id));
-    showSuccess("Empresa eliminada");
-    await loadEmpresas();
-  } catch {
-    showError("Error al eliminar la empresa");
-  }
+  alert(`Empresa con ID ${id} eliminada (simulado)`);
+  empresas.value = empresas.value.filter((e) => e.id !== id);
 };
 
-// Agregar nueva empresa
+// Simular registro de nueva empresa
 const submitEmpresa = async () => {
   const nombre = newEmpresa.value.nombre.trim();
   if (!nombre) {
-    showError("El nombre de la empresa no puede estar vacío.");
+    alert("El nombre de la empresa no puede estar vacío.");
     return;
   }
 
-  try {
-    await setDoc(doc(db, "ImgEmpresa", nombre), {
-      nombreEmpresa: nombre,
-    });
-    showSuccess("Empresa registrada exitosamente");
-    resetForm();
-    showModal.value = false;
-    await loadEmpresas();
-  } catch (error) {
-    showError(error.message);
-  }
+  alert(`Empresa "${nombre}" registrada (simulado)`);
+  empresas.value.push({ id: Date.now().toString(), nombre });
+  resetForm();
+  showModal.value = false;
 };
 
+// Limpiar formulario
 const resetForm = () => {
   newEmpresa.value = { nombre: "" };
 };

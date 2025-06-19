@@ -4,7 +4,6 @@ import { useUserStore } from "./stores/user";
 import Login from "./views/Login.vue";
 import Home from "./views/Home.vue";
 import RegisterCompany from "./views/RegisterCompany.vue";
-import RegisterVehicle from "./views/RegisterVehicle.vue";
 import RegisterEnterprise from "./views/RegisterEnterprise.vue";
 
 const requireAuth = async (to, from, next) => {
@@ -32,11 +31,6 @@ const routes = [
   {
     path: "/registercompany",
     component: RegisterCompany,
-    beforeEnter: requireAuth,
-  },
-  {
-    path: "/registervehicle",
-    component: RegisterVehicle,
     beforeEnter: requireAuth,
   },
   {
